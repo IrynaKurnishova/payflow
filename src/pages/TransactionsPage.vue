@@ -26,14 +26,17 @@ const form = ref({
 })
 
 function submitForm() {
-  if (!form.value.description || !form.value.amount || !form.value.categoryId) return
+  if (!form.value.description || !form.value.amount || !form.value.categoryId || !form.value.date) return
 
   transactionStore.addTransaction({
     id: Date.now().toString(),
-    ...form.value,
+    description: form.value.description,
+    amount: form.value.amount,
+    type: form.value.type,
+    categoryId: form.value.categoryId,
+    date: form.value.date,
   })
 
-  // сбросить форму
   form.value = {
     description: '',
     amount: 0,
@@ -42,8 +45,7 @@ function submitForm() {
     date: new Date().toISOString().split('T')[0],
   }
   showForm.value = false
-}
-</script>
+}</script>
 
 <template>
   <div class="p-8">
