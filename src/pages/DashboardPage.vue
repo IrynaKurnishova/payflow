@@ -2,6 +2,7 @@
 import { useTransactionStore } from '@/stores/transactions'
 import { useCategoryStore } from '@/stores/categories'
 import { useCurrency } from '@/composables/useCurrency'
+import ExpenseChart from '@/components/shared/ExpenseChart.vue'
 
 const { formatAmount } = useCurrency()
 const transactionStore = useTransactionStore()
@@ -35,6 +36,11 @@ const categoryStore = useCategoryStore()
         <p class="text-gray-400 text-sm mb-2">Total Expenses</p>
         <p class="text-3xl font-bold text-red-400">{{ formatAmount(transactionStore.totalExpense) }}</p>
       </div>
+    </div>
+
+    <!-- Chart -->
+    <div class="mb-8">
+      <ExpenseChart />
     </div>
 
     <!-- Recent transactions -->
