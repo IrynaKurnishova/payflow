@@ -16,11 +16,11 @@ const navItems = [
 <template>
   <div class="flex min-h-screen bg-gray-100">
     <!-- Sidebar -->
-    <aside class="w-64 bg-white shadow-lg flex flex-col">
+    <aside class="w-64 bg-white dark:bg-gray-900 shadow-lg flex flex-col">
       <!-- Logo -->
       <div class="p-6 border-b border-gray-100">
         <h1 class="text-xl font-bold text-indigo-600">💸 PayFlow</h1>
-        <p class="text-xs text-gray-400 mt-1">Personal Finance</p>
+        <p class="text-xs text-gray-400 dark:text-gray-500 mt-1">Personal Finance</p>
       </div>
 
       <!-- Navigation -->
@@ -44,7 +44,7 @@ const navItems = [
     </aside>
 
     <!-- Main content -->
-    <main class="flex-1 overflow-auto">
+    <main class="flex-1 bg-gray-100 dark:bg-gray-800 overflow-auto">
       <RouterView />
     </main>
   </div>

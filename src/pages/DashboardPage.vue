@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { useTransactionStore } from '@/stores/transactions'
 import { useCategoryStore } from '@/stores/categories'
+import { useCurrency } from '@/composables/useCurrency'
 
+const { formatAmount } = useCurrency()
 const transactionStore = useTransactionStore()
 const categoryStore = useCategoryStore()
 </script>
@@ -19,19 +21,19 @@ const categoryStore = useCategoryStore()
       <!-- Balance -->
       <div class="bg-indigo-600 rounded-2xl p-6 text-white">
         <p class="text-indigo-200 text-sm mb-2">Total Balance</p>
-        <p class="text-3xl font-bold">€ {{ transactionStore.balance.toFixed(2) }}</p>
+        <p class="text-3xl font-bold">{{ formatAmount(transactionStore.balance) }}</p>
       </div>
 
       <!-- Income -->
       <div class="bg-white rounded-2xl p-6">
         <p class="text-gray-400 text-sm mb-2">Total Income</p>
-        <p class="text-3xl font-bold text-green-500">€ {{ transactionStore.totalIncome.toFixed(2) }}</p>
+        <p class="text-3xl font-bold text-green-500">{{ formatAmount(transactionStore.totalIncome) }}</p>
       </div>
 
       <!-- Expense -->
       <div class="bg-white rounded-2xl p-6">
         <p class="text-gray-400 text-sm mb-2">Total Expenses</p>
-        <p class="text-3xl font-bold text-red-400">€ {{ transactionStore.totalExpense.toFixed(2) }}</p>
+        <p class="text-3xl font-bold text-red-400">{{ formatAmount(transactionStore.totalExpense) }}</p>
       </div>
     </div>
 
@@ -57,7 +59,8 @@ const categoryStore = useCategoryStore()
             class="font-semibold"
             :class="transaction.type === 'income' ? 'text-green-500' : 'text-red-400'"
           >
-            {{ transaction.type === 'income' ? '+' : '-' }}€{{ transaction.amount }}
+            {{ transaction.type === 'income' ? '+' : '-' }}
+            {{ formatAmount(transaction.amount) }}
           </p>
         </div>
       </div>

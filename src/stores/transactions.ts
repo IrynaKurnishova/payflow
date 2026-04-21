@@ -1,13 +1,16 @@
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 import type { Transaction } from '@/types'
 
-export const useTransactionStore = defineStore('transactions', () => {
-  const items = ref<Transaction[]>([
+const STORAGE_KEY = 'payflow_transactions'
+
+function loadFromStorage(): Transaction[] {
+  const saved = localStorage.getItem(STORAGE_KEY)
+  return saved ? JSON.parse(saved) : [
     {
       id: '1',
       amount: 3500,
-      type: 'income',
+      type: 'income' as const,
       categoryId: '5',
       description: 'Salary',
       date: '2026-04-01',
@@ -15,7 +18,7 @@ export const useTransactionStore = defineStore('transactions', () => {
     {
       id: '2',
       amount: 120,
-      type: 'expense',
+      type: 'expense' as const,
       categoryId: '1',
       description: 'Groceries',
       date: '2026-04-05',
@@ -23,12 +26,21 @@ export const useTransactionStore = defineStore('transactions', () => {
     {
       id: '3',
       amount: 45,
-      type: 'expense',
+      type: 'expense' as const,
       categoryId: '2',
       description: 'Metro pass',
       date: '2026-04-07',
     },
-  ])
+  ]
+}
+
+export const useTransactionStore = defineStore('transactions', () => {
+  const items = ref<Transaction[]>(loadFromStorage())
+
+  // автоматически сохраняем в localStorage при каждом изменении
+  watch(items, (newItems) => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems))
+  }, { deep: true })
 
   const totalIncome = computed(() =>
     items.value
