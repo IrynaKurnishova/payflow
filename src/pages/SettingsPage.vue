@@ -1,15 +1,3 @@
-<script setup lang="ts">
-import { useUIStore } from '@/stores/ui'
-
-const uiStore = useUIStore()
-
-const currencies = [
-  { value: 'EUR', label: '€ Euro' },
-  { value: 'USD', label: '$ Dollar' },
-  { value: 'CHF', label: '₣ Swiss Franc' },
-]
-</script>
-
 <template>
   <div class="p-8">
     <!-- Header -->
@@ -73,3 +61,15 @@ const currencies = [
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useUIStore } from '@/stores/ui'
+
+const uiStore = useUIStore()
+
+const currencies = [
+  { value: 'EUR', label: '€ Euro' },
+  { value: 'USD', label: '$ Dollar' },
+  { value: 'CHF', label: '₣ Swiss Franc' },
+]
+</script>

@@ -1,3 +1,12 @@
+<template>
+  <div class="bg-white rounded-2xl p-6">
+    <h2 class="text-lg font-semibold text-gray-800 mb-4">Expenses by Category</h2>
+    <div class="max-w-xs mx-auto">
+      <Doughnut :data="chartData" :options="chartOptions" />
+    </div>
+  </div>
+</template>
+
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Doughnut } from 'vue-chartjs'
@@ -11,7 +20,6 @@ const transactionStore = useTransactionStore()
 const categoryStore = useCategoryStore()
 
 const chartData = computed(() => {
-  // группируем расходы по категориям
   const expensesByCategory: Record<string, number> = {}
 
   transactionStore.items
@@ -50,12 +58,3 @@ const chartOptions = {
   cutout: '70%',
 }
 </script>
-
-<template>
-  <div class="bg-white rounded-2xl p-6">
-    <h2 class="text-lg font-semibold text-gray-800 mb-4">Expenses by Category</h2>
-    <div class="max-w-xs mx-auto">
-      <Doughnut :data="chartData" :options="chartOptions" />
-    </div>
-  </div>
-</template>

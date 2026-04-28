@@ -1,48 +1,42 @@
-# payflow
+# 💸 PayFlow — Personal Finance Dashboard
 
-This template should help get you started developing with Vue 3 in Vite.
+A modern personal finance management app built with Vue 3, TypeScript, and Pinia.
 
-## Recommended IDE Setup
+🔗 **Live Demo:** [payflow-eight-navy.vercel.app](https://payflow-eight-navy.vercel.app)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## ✨ Features
 
-## Recommended Browser Setup
+- 📊 **Dashboard** — overview of balance, income and expenses with a donut chart
+- 💳 **Transactions** — add, filter and delete transactions by type
+- 🗂️ **Categories** — create and manage custom categories with icons and colors
+- 🌙 **Dark Mode** — toggle between light and dark theme
+- 💱 **Multi-currency** — EUR, USD, CHF support
+- 💾 **Persistent storage** — data saved to localStorage
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## 🛠️ Tech Stack
 
-## Type Support for `.vue` Imports in TS
+- **Vue 3** — Composition API, `<script setup>`
+- **TypeScript** — strict typing throughout
+- **Pinia** — state management with localStorage persistence
+- **Vue Router** — SPA routing with lazy loading
+- **Tailwind CSS** — utility-first styling
+- **Chart.js** — interactive doughnut chart
+- **Vite** — fast build tool
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 🚀 Getting Started
 
-## Customize configuration
+```bash
+# Clone the repository
+git clone https://github.com/IrynaKurnishova/payflow.git
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+# Navigate to project
+cd payflow
 
-## Project Setup
-
-```sh
+# Install dependencies
 npm install
-```
 
-### Compile and Hot-Reload for Development
-
-```sh
+# Run development server
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+## 📁 Project Structure

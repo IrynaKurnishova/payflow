@@ -1,31 +1,3 @@
-<script setup lang="ts">
-import { ref } from 'vue'
-import { useCategoryStore } from '@/stores/categories'
-import type { Category } from '@/types'
-
-const categoryStore = useCategoryStore()
-
-const showForm = ref(false)
-const form = ref({
-  name: '',
-  icon: '📦',
-  color: '#6366f1',
-})
-
-function submitForm() {
-  if (!form.value.name) return
-
-  const newCategory: Category = {
-    id: Date.now().toString(),
-    ...form.value,
-  }
-
-  categoryStore.addCategory(newCategory)
-  form.value = { name: '', icon: '📦', color: '#6366f1' }
-  showForm.value = false
-}
-</script>
-
 <template>
   <div class="p-8">
     <!-- Header -->
@@ -121,3 +93,31 @@ function submitForm() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useCategoryStore } from '@/stores/categories'
+import type { Category } from '@/types'
+
+const categoryStore = useCategoryStore()
+
+const showForm = ref(false)
+const form = ref({
+  name: '',
+  icon: '📦',
+  color: '#6366f1',
+})
+
+function submitForm() {
+  if (!form.value.name) return
+
+  const newCategory: Category = {
+    id: Date.now().toString(),
+    ...form.value,
+  }
+
+  categoryStore.addCategory(newCategory)
+  form.value = { name: '', icon: '📦', color: '#6366f1' }
+  showForm.value = false
+}
+</script>

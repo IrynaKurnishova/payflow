@@ -1,18 +1,3 @@
-<script setup lang="ts">
-import { useUIStore } from '@/stores/ui'
-import { RouterLink, useRoute } from 'vue-router'
-
-const uiStore = useUIStore()
-const route = useRoute()
-
-const navItems = [
-  { name: 'Dashboard', path: '/', icon: '📊' },
-  { name: 'Transactions', path: '/transactions', icon: '💳' },
-  { name: 'Categories', path: '/categories', icon: '🗂️' },
-  { name: 'Settings', path: '/settings', icon: '⚙️' },
-]
-</script>
-
 <template>
   <div class="flex min-h-screen bg-gray-100">
     <!-- Sidebar -->
@@ -49,3 +34,16 @@ const navItems = [
     </main>
   </div>
 </template>
+
+<script setup lang="ts">
+import { RouterLink, useRoute } from 'vue-router'
+
+const route = useRoute()
+
+const navItems = [
+  { name: 'Dashboard', path: '/', icon: '📊' },
+  { name: 'Transactions', path: '/transactions', icon: '💳' },
+  { name: 'Categories', path: '/categories', icon: '🗂️' },
+  { name: 'Settings', path: '/settings', icon: '⚙️' },
+]
+</script>

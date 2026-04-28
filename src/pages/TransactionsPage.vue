@@ -1,52 +1,3 @@
-<script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useTransactionStore } from '@/stores/transactions'
-import { useCategoryStore } from '@/stores/categories'
-import type { Transaction } from '@/types'
-
-const transactionStore = useTransactionStore()
-const categoryStore = useCategoryStore()
-
-// Фильтр
-const filter = ref<'all' | 'income' | 'expense'>('all')
-
-const filteredTransactions = computed(() => {
-  if (filter.value === 'all') return transactionStore.items
-  return transactionStore.items.filter(t => t.type === filter.value)
-})
-
-// Форма
-const showForm = ref(false)
-const form = ref({
-  description: '',
-  amount: 0,
-  type: 'expense' as Transaction['type'],
-  categoryId: '',
-  date: new Date().toISOString().split('T')[0],
-})
-
-function submitForm() {
-  if (!form.value.description || !form.value.amount || !form.value.categoryId || !form.value.date) return
-
-  transactionStore.addTransaction({
-    id: Date.now().toString(),
-    description: form.value.description,
-    amount: form.value.amount,
-    type: form.value.type,
-    categoryId: form.value.categoryId,
-    date: form.value.date,
-  })
-
-  form.value = {
-    description: '',
-    amount: 0,
-    type: 'expense',
-    categoryId: '',
-    date: new Date().toISOString().split('T')[0],
-  }
-  showForm.value = false
-}</script>
-
 <template>
   <div class="p-8">
     <!-- Header -->
@@ -183,3 +134,51 @@ function submitForm() {
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { ref, computed } from 'vue'
+import { useTransactionStore } from '@/stores/transactions'
+import { useCategoryStore } from '@/stores/categories'
+import type { Transaction } from '@/types'
+
+const transactionStore = useTransactionStore()
+const categoryStore = useCategoryStore()
+
+const filter = ref<'all' | 'income' | 'expense'>('all')
+
+const filteredTransactions = computed(() => {
+  if (filter.value === 'all') return transactionStore.items
+  return transactionStore.items.filter(t => t.type === filter.value)
+})
+
+const showForm = ref(false)
+const form = ref({
+  description: '',
+  amount: 0,
+  type: 'expense' as Transaction['type'],
+  categoryId: '',
+  date: new Date().toISOString().split('T')[0],
+})
+
+function submitForm() {
+  if (!form.value.description || !form.value.amount || !form.value.categoryId || !form.value.date) return
+
+  transactionStore.addTransaction({
+    id: Date.now().toString(),
+    description: form.value.description,
+    amount: form.value.amount,
+    type: form.value.type,
+    categoryId: form.value.categoryId,
+    date: form.value.date,
+  })
+
+  form.value = {
+    description: '',
+    amount: 0,
+    type: 'expense',
+    categoryId: '',
+    date: new Date().toISOString().split('T')[0],
+  }
+  showForm.value = false
+}
+</script>

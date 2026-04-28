@@ -1,14 +1,3 @@
-<script setup lang="ts">
-import { useTransactionStore } from '@/stores/transactions'
-import { useCategoryStore } from '@/stores/categories'
-import { useCurrency } from '@/composables/useCurrency'
-import ExpenseChart from '@/components/shared/ExpenseChart.vue'
-
-const { formatAmount } = useCurrency()
-const transactionStore = useTransactionStore()
-const categoryStore = useCategoryStore()
-</script>
-
 <template>
   <div class="p-8">
     <!-- Header -->
@@ -73,3 +62,14 @@ const categoryStore = useCategoryStore()
     </div>
   </div>
 </template>
+
+<script setup lang="ts">
+import { useTransactionStore } from '@/stores/transactions'
+import { useCategoryStore } from '@/stores/categories'
+import { useCurrency } from '@/composables/useCurrency'
+import ExpenseChart from '@/components/shared/ExpenseChart.vue'
+
+const { formatAmount } = useCurrency()
+const transactionStore = useTransactionStore()
+const categoryStore = useCategoryStore()
+</script>
