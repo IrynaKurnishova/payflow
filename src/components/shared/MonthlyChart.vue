@@ -31,7 +31,6 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 const transactionStore = useTransactionStore()
 
 const chartData = computed(() => {
-  // Получаем все дни текущего месяца
   const now = new Date()
   const year = now.getFullYear()
   const month = now.getMonth()
