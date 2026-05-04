@@ -7,7 +7,7 @@
     </div>
 
     <!-- Stats cards -->
-    <div class="grid grid-cols-3 gap-6 mb-8">
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
       <!-- Balance -->
       <div class="bg-indigo-600 rounded-2xl p-6 text-white">
         <p class="text-indigo-200 text-sm mb-2">Total Balance</p>

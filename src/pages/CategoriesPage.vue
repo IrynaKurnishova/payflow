@@ -17,7 +17,7 @@
     <!-- Form -->
     <div v-if="showForm" class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
       <h2 class="text-lg font-semibold text-gray-800 mb-4">New Category</h2>
-      <div class="grid grid-cols-3 gap-4">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         <div>
           <label class="text-xs text-gray-400 mb-1 block">Name</label>
           <input
@@ -62,7 +62,7 @@
     </div>
 
     <!-- Categories grid -->
-    <div class="grid grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <div
         v-for="category in categoryStore.items"
         :key="category.id"
