@@ -32,6 +32,11 @@
       <ExpenseChart />
     </div>
 
+    <!-- Monthly Chart -->
+    <div class="mb-8">
+      <MonthlyChart />
+    </div>
+
     <!-- Recent transactions -->
     <div class="bg-white rounded-2xl p-6">
       <h2 class="text-lg font-semibold text-gray-800 mb-4">Recent Transactions</h2>
@@ -64,12 +69,13 @@
 </template>
 
 <script setup lang="ts">
-import { useTransactionStore } from '@/stores/transactions'
-import { useCategoryStore } from '@/stores/categories'
-import { useCurrency } from '@/composables/useCurrency'
-import ExpenseChart from '@/components/shared/ExpenseChart.vue'
+import { useTransactionStore } from '@/stores/transactions';
+import { useCategoryStore } from '@/stores/categories';
+import { useCurrency } from '@/composables/useCurrency';
+import ExpenseChart from '@/components/shared/ExpenseChart.vue';
+import MonthlyChart from '@/components/shared/MonthlyChart.vue'
 
-const { formatAmount } = useCurrency()
-const transactionStore = useTransactionStore()
-const categoryStore = useCategoryStore()
+const { formatAmount } = useCurrency();
+const transactionStore = useTransactionStore();
+const categoryStore = useCategoryStore();
 </script>
