@@ -5,7 +5,7 @@ import type { Transaction } from '@/types';
 const STORAGE_KEY = 'payflow_transactions'
 
 function loadFromStorage(): Transaction[] {
-  const saved = localStorage.getItem(STORAGE_KEY)
+  const saved = localStorage.getItem(STORAGE_KEY);
   return saved ? JSON.parse(saved) : [
     {
       id: '1',
@@ -35,34 +35,40 @@ function loadFromStorage(): Transaction[] {
 }
 
 export const useTransactionStore = defineStore('transactions', () => {
-  const items = ref<Transaction[]>(loadFromStorage())
+  const items = ref<Transaction[]>(loadFromStorage());
 
-  // автоматически сохраняем в localStorage при каждом изменении
   watch(items, (newItems) => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(newItems))
-  }, { deep: true })
+  }, { deep: true });
 
   const totalIncome = computed(() =>
     items.value
       .filter(t => t.type === 'income')
       .reduce((sum, t) => sum + t.amount, 0)
-  )
+  );
 
   const totalExpense = computed(() =>
     items.value
       .filter(t => t.type === 'expense')
       .reduce((sum, t) => sum + t.amount, 0)
-  )
+  );
 
-  const balance = computed(() => totalIncome.value - totalExpense.value)
+  const balance = computed(() => totalIncome.value - totalExpense.value);
 
-  function addTransaction(transaction: Transaction) {
+  const addTransaction = (transaction: Transaction) => {
     items.value.push(transaction)
-  }
+  };
 
-  function removeTransaction(id: string) {
+  const removeTransaction = (id: string) => {
     items.value = items.value.filter(t => t.id !== id)
-  }
+  };
 
-  return { items, totalIncome, totalExpense, balance, addTransaction, removeTransaction }
+  const updateTransaction = (id: string, data: Omit<Transaction, 'id'>) => {
+    const index = items.value.findIndex(t => t.id === id)
+    if (index !== -1) {
+      items.value[index] = { id, ...data }
+    }
+  };
+
+  return { items, totalIncome, totalExpense, balance, addTransaction, removeTransaction, updateTransaction }
 })

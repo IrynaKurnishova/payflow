@@ -24,7 +24,9 @@
 
     <!-- Form -->
     <div v-if="showForm" class="bg-white rounded-2xl p-6 mb-6 shadow-sm">
-      <h2 class="text-lg font-semibold text-gray-800 mb-4">New Transaction</h2>
+      <h2 class="text-lg font-semibold text-gray-800 mb-4">
+        {{ editingId ? 'Edit Transaction' : 'New Transaction' }}
+      </h2>
       <div class="grid grid-cols-2 gap-4">
         <div>
           <label class="text-xs text-gray-400 mb-1 block">Description</label>
@@ -84,7 +86,7 @@
           class="bg-indigo-600 text-white px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
           @click="submitForm"
         >
-          Save
+          {{ editingId ? 'Update' : 'Save' }}
         </button>
         <button
           class="bg-gray-100 text-gray-600 px-6 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-200 transition-colors"
@@ -160,12 +162,20 @@
             >
               {{ transaction.type === 'income' ? '+' : '-' }}€{{ transaction.amount }}
             </p>
-            <button
-              class="text-gray-300 hover:text-red-400 transition-colors text-lg"
-              @click="transactionStore.removeTransaction(transaction.id); show('Transaction deleted', 'error')"
-            >
-              ✕
-            </button>
+            <div class="flex items-center gap-2">
+              <button
+                class="text-gray-300 hover:text-indigo-400 transition-colors text-lg"
+                @click="startEdit(transaction)"
+              >
+                ✏️
+              </button>
+              <button
+                class="text-gray-300 hover:text-red-400 transition-colors text-lg"
+                @click="transactionStore.removeTransaction(transaction.id); show('Transaction deleted', 'error')"
+              >
+                ✕
+              </button>
+            </div>
           </div>
         </div>
       </template>
@@ -217,17 +227,44 @@ const filteredTransactions = computed(() => {
   return result
 });
 
+const editingId = ref<string | null>(null)
+
+const startEdit = (transaction: Transaction) => {
+  editingId.value = transaction.id
+  form.value = {
+    description: transaction.description,
+    amount: transaction.amount,
+    type: transaction.type,
+    categoryId: transaction.categoryId,
+    date: transaction.date,
+  }
+  showForm.value = true
+};
+
 const submitForm = () => {
   if (!form.value.description || !form.value.amount || !form.value.categoryId || !form.value.date) return
 
-  transactionStore.addTransaction({
-    id: Date.now().toString(),
-    description: form.value.description,
-    amount: form.value.amount,
-    type: form.value.type,
-    categoryId: form.value.categoryId,
-    date: form.value.date,
-  })
+  if (editingId.value) {
+    transactionStore.updateTransaction(editingId.value, {
+      description: form.value.description,
+      amount: form.value.amount,
+      type: form.value.type,
+      categoryId: form.value.categoryId,
+      date: form.value.date,
+    })
+    editingId.value = null
+    show('Transaction updated! ✏️', 'info')
+  } else {
+    transactionStore.addTransaction({
+      id: Date.now().toString(),
+      description: form.value.description,
+      amount: form.value.amount,
+      type: form.value.type,
+      categoryId: form.value.categoryId,
+      date: form.value.date,
+    })
+    show('Transaction added successfully! 🎉')
+  }
 
   form.value = {
     description: '',
@@ -237,6 +274,5 @@ const submitForm = () => {
     date: new Date().toISOString().split('T')[0],
   }
   showForm.value = false
-  show('Transaction added successfully! 🎉')
 };
 </script>
