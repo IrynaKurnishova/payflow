@@ -144,33 +144,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import { useTransactionStore } from '@/stores/transactions'
-import { useCategoryStore } from '@/stores/categories'
-import type { Transaction } from '@/types'
-import { useExport } from '@/composables/useExport'
+import { ref, computed } from 'vue';
+import { useTransactionStore } from '@/stores/transactions';
+import { useCategoryStore } from '@/stores/categories';
+import type { Transaction } from '@/types';
+import { useExport } from '@/composables/useExport';
 
-const { exportToCSV } = useExport()
-const transactionStore = useTransactionStore()
-const categoryStore = useCategoryStore()
+const { exportToCSV } = useExport();
+const transactionStore = useTransactionStore();
+const categoryStore = useCategoryStore();
 
-const filter = ref<'all' | 'income' | 'expense'>('all')
+const filter = ref<'all' | 'income' | 'expense'>('all');
 
 const filteredTransactions = computed(() => {
   if (filter.value === 'all') return transactionStore.items
   return transactionStore.items.filter(t => t.type === filter.value)
-})
+});
 
-const showForm = ref(false)
+const showForm = ref(false);
 const form = ref({
   description: '',
   amount: 0,
   type: 'expense' as Transaction['type'],
   categoryId: '',
   date: new Date().toISOString().split('T')[0],
-})
+});
 
-function submitForm() {
+const submitForm = () => {
   if (!form.value.description || !form.value.amount || !form.value.categoryId || !form.value.date) return
 
   transactionStore.addTransaction({
@@ -190,5 +190,5 @@ function submitForm() {
     date: new Date().toISOString().split('T')[0],
   }
   showForm.value = false
-}
+};
 </script>

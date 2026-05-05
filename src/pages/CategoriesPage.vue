@@ -95,20 +95,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { useCategoryStore } from '@/stores/categories'
-import type { Category } from '@/types'
+import { ref } from 'vue';
+import { useCategoryStore } from '@/stores/categories';
+import type { Category } from '@/types';
 
-const categoryStore = useCategoryStore()
+const categoryStore = useCategoryStore();
 
-const showForm = ref(false)
+const showForm = ref(false);
 const form = ref({
   name: '',
   icon: '📦',
   color: '#6366f1',
-})
+});
 
-function submitForm() {
+const submitForm = () => {
   if (!form.value.name) return
 
   const newCategory: Category = {
@@ -119,5 +119,5 @@ function submitForm() {
   categoryStore.addCategory(newCategory)
   form.value = { name: '', icon: '📦', color: '#6366f1' }
   showForm.value = false
-}
+};
 </script>

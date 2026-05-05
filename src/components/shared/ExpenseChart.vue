@@ -8,16 +8,16 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Doughnut } from 'vue-chartjs'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
-import { useTransactionStore } from '@/stores/transactions'
-import { useCategoryStore } from '@/stores/categories'
+import { computed } from 'vue';
+import { Doughnut } from 'vue-chartjs';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { useTransactionStore } from '@/stores/transactions';
+import { useCategoryStore } from '@/stores/categories';
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.register(ArcElement, Tooltip, Legend);
 
-const transactionStore = useTransactionStore()
-const categoryStore = useCategoryStore()
+const transactionStore = useTransactionStore();
+const categoryStore = useCategoryStore();
 
 const chartData = computed(() => {
   const expensesByCategory: Record<string, number> = {}
@@ -46,7 +46,7 @@ const chartData = computed(() => {
       borderWidth: 0,
     }]
   }
-})
+});
 
 const chartOptions = {
   responsive: true,
@@ -56,5 +56,5 @@ const chartOptions = {
     }
   },
   cutout: '70%',
-}
+};
 </script>

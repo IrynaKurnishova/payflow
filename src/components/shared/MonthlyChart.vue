@@ -11,8 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
-import { Line } from 'vue-chartjs'
+import { computed } from 'vue';
+import { Line } from 'vue-chartjs';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -23,12 +23,12 @@ import {
   Tooltip,
   Legend,
   Filler,
-} from 'chart.js'
-import { useTransactionStore } from '@/stores/transactions'
+} from 'chart.js';
+import { useTransactionStore } from '@/stores/transactions';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler)
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend, Filler);
 
-const transactionStore = useTransactionStore()
+const transactionStore = useTransactionStore();
 
 const chartData = computed(() => {
   const now = new Date()
@@ -82,7 +82,7 @@ const chartData = computed(() => {
       },
     ],
   }
-})
+});
 
 const chartOptions = {
   responsive: true,
@@ -108,5 +108,5 @@ const chartOptions = {
       },
     },
   },
-}
+};
 </script>

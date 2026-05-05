@@ -63,13 +63,13 @@
 </template>
 
 <script setup lang="ts">
-import { useUIStore } from '@/stores/ui'
+import { useUIStore } from '@/stores/ui';
 
-const uiStore = useUIStore()
+const uiStore = useUIStore();
 
 const currencies = [
   { value: 'EUR', label: '€ Euro' },
   { value: 'USD', label: '$ Dollar' },
   { value: 'CHF', label: '₣ Swiss Franc' },
-]
+];
 </script>

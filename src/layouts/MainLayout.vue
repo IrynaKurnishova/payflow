@@ -83,22 +83,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { RouterLink, useRoute } from 'vue-router'
+import { ref } from 'vue';
+import { RouterLink, useRoute } from 'vue-router';
 
-const route = useRoute()
-const isSidebarOpen = ref(false)
+const route = useRoute();
+const isSidebarOpen = ref(false);
 
 const navItems = [
   { name: 'Dashboard', path: '/', icon: '📊' },
   { name: 'Transactions', path: '/transactions', icon: '💳' },
   { name: 'Categories', path: '/categories', icon: '🗂️' },
   { name: 'Settings', path: '/settings', icon: '⚙️' },
-]
+];
 
-function closeSidebar() {
+const closeSidebar = () => {
   isSidebarOpen.value = false
-}
+};
 </script>
 
 <style scoped>
