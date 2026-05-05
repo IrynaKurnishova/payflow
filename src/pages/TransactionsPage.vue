@@ -133,7 +133,7 @@
           </p>
           <button
             class="text-gray-300 hover:text-red-400 transition-colors text-lg"
-            @click="transactionStore.removeTransaction(transaction.id)"
+            @click="transactionStore.removeTransaction(transaction.id); show('Transaction deleted', 'error')"
           >
             ✕
           </button>
@@ -149,7 +149,9 @@ import { useTransactionStore } from '@/stores/transactions';
 import { useCategoryStore } from '@/stores/categories';
 import type { Transaction } from '@/types';
 import { useExport } from '@/composables/useExport';
+import { useToast } from '@/composables/useToast';
 
+const { show } = useToast();
 const { exportToCSV } = useExport();
 const transactionStore = useTransactionStore();
 const categoryStore = useCategoryStore();
@@ -190,5 +192,6 @@ const submitForm = () => {
     date: new Date().toISOString().split('T')[0],
   }
   showForm.value = false
-};
+  show('Transaction added successfully! 🎉')
+}
 </script>

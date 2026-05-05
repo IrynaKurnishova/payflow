@@ -79,12 +79,14 @@
         </RouterView>
       </main>
     </div>
+    <ToastContainer />
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink, useRoute } from 'vue-router';
+import ToastContainer from '@/components/ui/ToastContainer.vue'
 
 const route = useRoute();
 const isSidebarOpen = ref(false);
