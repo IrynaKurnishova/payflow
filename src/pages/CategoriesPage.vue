@@ -29,12 +29,20 @@
         </div>
         <div>
           <label class="text-xs text-gray-400 mb-1 block">Icon (emoji)</label>
-          <input
-            v-model="form.icon"
-            type="text"
-            placeholder="📦"
-            class="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-indigo-400"
-          />
+          <div class="flex flex-wrap gap-2">
+            <button
+              v-for="emoji in emojiOptions"
+              :key="emoji"
+              type="button"
+              class="w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-all border-2"
+              :class="form.icon === emoji
+              ? 'border-indigo-400 bg-indigo-50'
+              : 'border-transparent bg-gray-100 hover:bg-gray-200'"
+              @click="form.icon = emoji"
+            >
+              {{ emoji }}
+            </button>
+          </div>
         </div>
         <div>
           <label class="text-xs text-gray-400 mb-1 block">Color</label>
@@ -62,7 +70,15 @@
     </div>
 
     <!-- Categories grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+    <EmptyState
+      v-if="categoryStore.items.length === 0"
+      icon="🗂️"
+      title="No categories yet"
+      description="Create your first category to organize transactions"
+      action-label="+ Add Category"
+      @action="showForm = true"
+    />
+    <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
       <div
         v-for="category in categoryStore.items"
         :key="category.id"
@@ -85,7 +101,7 @@
         </div>
         <button
           class="text-gray-300 hover:text-red-400 transition-colors"
-          @click="categoryStore.removeCategory(category.id)"
+          @click="categoryStore.removeCategory(category.id); show('Category deleted', 'error')"
         >
           ✕
         </button>
@@ -98,6 +114,9 @@
 import { ref } from 'vue';
 import { useCategoryStore } from '@/stores/categories';
 import type { Category } from '@/types';
+import EmptyState from '@/components/ui/EmptyState.vue';
+import { useToast } from '@/composables/useToast';
+const { show } = useToast();
 
 const categoryStore = useCategoryStore();
 
@@ -107,6 +126,16 @@ const form = ref({
   icon: '📦',
   color: '#6366f1',
 });
+
+const emojiOptions = [
+  '🍔', '🍕', '🥗', '☕',
+  '🚗', '🚇', '✈️', '⛽',
+  '🛍️', '👗', '👟', '🎁',
+  '💊', '🏥', '💪', '🧴',
+  '💰', '💳', '🏦', '📈',
+  '🎮', '🎬', '🎵', '📚',
+  '🏠', '💡', '🔧', '📱',
+];
 
 const submitForm = () => {
   if (!form.value.name) return
@@ -119,5 +148,6 @@ const submitForm = () => {
   categoryStore.addCategory(newCategory)
   form.value = { name: '', icon: '📦', color: '#6366f1' }
   showForm.value = false
+  show('Category added successfully! 🎉')
 };
 </script>

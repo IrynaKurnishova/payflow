@@ -110,35 +110,45 @@
 
     <!-- Transactions list -->
     <div class="bg-white rounded-2xl overflow-hidden">
-      <div
-        v-for="transaction in filteredTransactions"
-        :key="transaction.id"
-        class="flex items-center justify-between px-6 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors"
-      >
-        <div class="flex items-center gap-4">
-          <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-lg">
-            {{ categoryStore.items.find(c => c.id === transaction.categoryId)?.icon }}
+      <EmptyState
+        v-if="filteredTransactions.length === 0"
+        icon="💳"
+        title="No transactions yet"
+        :description="filter === 'all' ? 'Add your first transaction to get started' : `No ${filter} transactions found`"
+        :action-label="filter === 'all' ? '+ Add Transaction' : undefined"
+        @action="showForm = true"
+      />
+      <template v-else>
+        <div
+          v-for="transaction in filteredTransactions"
+          :key="transaction.id"
+          class="flex items-center justify-between px-6 py-4 border-b border-gray-50 last:border-0 hover:bg-gray-50 transition-colors"
+        >
+          <div class="flex items-center gap-4">
+            <div class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-lg">
+              {{ categoryStore.items.find(c => c.id === transaction.categoryId)?.icon }}
+            </div>
+            <div>
+              <p class="text-sm font-medium text-gray-800">{{ transaction.description }}</p>
+              <p class="text-xs text-gray-400">{{ transaction.date }}</p>
+            </div>
           </div>
-          <div>
-            <p class="text-sm font-medium text-gray-800">{{ transaction.description }}</p>
-            <p class="text-xs text-gray-400">{{ transaction.date }}</p>
+          <div class="flex items-center gap-4">
+            <p
+              class="font-semibold"
+              :class="transaction.type === 'income' ? 'text-green-500' : 'text-red-400'"
+            >
+              {{ transaction.type === 'income' ? '+' : '-' }}€{{ transaction.amount }}
+            </p>
+            <button
+              class="text-gray-300 hover:text-red-400 transition-colors text-lg"
+              @click="transactionStore.removeTransaction(transaction.id); show('Transaction deleted', 'error')"
+            >
+              ✕
+            </button>
           </div>
         </div>
-        <div class="flex items-center gap-4">
-          <p
-            class="font-semibold"
-            :class="transaction.type === 'income' ? 'text-green-500' : 'text-red-400'"
-          >
-            {{ transaction.type === 'income' ? '+' : '-' }}€{{ transaction.amount }}
-          </p>
-          <button
-            class="text-gray-300 hover:text-red-400 transition-colors text-lg"
-            @click="transactionStore.removeTransaction(transaction.id); show('Transaction deleted', 'error')"
-          >
-            ✕
-          </button>
-        </div>
-      </div>
+      </template>
     </div>
   </div>
 </template>
@@ -150,6 +160,7 @@ import { useCategoryStore } from '@/stores/categories';
 import type { Transaction } from '@/types';
 import { useExport } from '@/composables/useExport';
 import { useToast } from '@/composables/useToast';
+import EmptyState from '@/components/ui/EmptyState.vue'
 
 const { show } = useToast();
 const { exportToCSV } = useExport();
