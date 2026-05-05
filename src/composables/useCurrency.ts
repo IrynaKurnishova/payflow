@@ -1,8 +1,8 @@
-import { computed } from 'vue'
-import { useUIStore } from '@/stores/ui'
+import { computed } from 'vue';
+import { useUIStore } from '@/stores/ui';
 
-export function useCurrency() {
-  const uiStore = useUIStore()
+export const useCurrency = () => {
+  const uiStore = useUIStore();
 
   const currencySymbol = computed(() => {
     const symbols: Record<string, string> = {
@@ -11,11 +11,11 @@ export function useCurrency() {
       CHF: '₣',
     }
     return symbols[uiStore.currency] ?? '€'
-  })
+  });
 
-  function formatAmount(amount: number): string {
+  const formatAmount = (amount: number): string => {
     return `${currencySymbol.value}${amount.toFixed(2)}`
-  }
+  };
 
   return { currencySymbol, formatAmount }
 }

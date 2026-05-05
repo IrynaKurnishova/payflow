@@ -1,6 +1,6 @@
-import { ref, computed, watch } from 'vue'
-import { defineStore } from 'pinia'
-import type { Transaction } from '@/types'
+import { ref, computed, watch } from 'vue';
+import { defineStore } from 'pinia';
+import type { Transaction } from '@/types';
 
 const STORAGE_KEY = 'payflow_transactions'
 
