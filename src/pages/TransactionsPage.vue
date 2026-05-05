@@ -96,7 +96,7 @@
     </div>
 
     <!-- Filter -->
-    <div class="flex gap-2 mb-6">
+    <div class="flex gap-2 mb-4">
       <button
         v-for="f in ['all', 'income', 'expense']"
         :key="f"
@@ -108,14 +108,34 @@
       </button>
     </div>
 
+    <!-- Search -->
+    <div class="relative mb-6">
+      <span class="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">🔍</span>
+      <input
+        v-model="search"
+        type="text"
+        placeholder="Search transactions..."
+        class="w-full bg-white border border-gray-200 rounded-xl pl-10 pr-4 py-2.5 text-sm focus:outline-none focus:border-indigo-400"
+      />
+      <button
+        v-if="search"
+        class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+        @click="search = ''"
+      >
+        ✕
+      </button>
+    </div>
+
     <!-- Transactions list -->
     <div class="bg-white rounded-2xl overflow-hidden">
       <EmptyState
         v-if="filteredTransactions.length === 0"
-        icon="💳"
-        title="No transactions yet"
-        :description="filter === 'all' ? 'Add your first transaction to get started' : `No ${filter} transactions found`"
-        :action-label="filter === 'all' ? '+ Add Transaction' : undefined"
+        icon="🔍"
+        :title="search ? 'Nothing found' : 'No transactions yet'"
+        :description="search
+        ? `No transactions matching '${search}'`
+        : filter === 'all' ? 'Add your first transaction to get started' : `No ${filter} transactions found`"
+        :action-label="!search && filter === 'all' ? '+ Add Transaction' : undefined"
         @action="showForm = true"
       />
       <template v-else>
@@ -160,7 +180,7 @@ import { useCategoryStore } from '@/stores/categories';
 import type { Transaction } from '@/types';
 import { useExport } from '@/composables/useExport';
 import { useToast } from '@/composables/useToast';
-import EmptyState from '@/components/ui/EmptyState.vue'
+import EmptyState from '@/components/ui/EmptyState.vue';
 
 const { show } = useToast();
 const { exportToCSV } = useExport();
@@ -169,11 +189,7 @@ const categoryStore = useCategoryStore();
 
 const filter = ref<'all' | 'income' | 'expense'>('all');
 
-const filteredTransactions = computed(() => {
-  if (filter.value === 'all') return transactionStore.items
-  return transactionStore.items.filter(t => t.type === filter.value)
-});
-
+const search = ref('');
 const showForm = ref(false);
 const form = ref({
   description: '',
@@ -181,6 +197,24 @@ const form = ref({
   type: 'expense' as Transaction['type'],
   categoryId: '',
   date: new Date().toISOString().split('T')[0],
+});
+
+const filteredTransactions = computed(() => {
+  let result = transactionStore.items
+
+  if (filter.value !== 'all') {
+    result = result.filter(t => t.type === filter.value)
+  }
+
+  if (search.value.trim()) {
+    const query = search.value.toLowerCase()
+    result = result.filter(t =>
+      t.description.toLowerCase().includes(query) ||
+      categoryStore.items.find(c => c.id === t.categoryId)?.name.toLowerCase().includes(query)
+    )
+  }
+
+  return result
 });
 
 const submitForm = () => {
@@ -204,5 +238,5 @@ const submitForm = () => {
   }
   showForm.value = false
   show('Transaction added successfully! 🎉')
-}
+};
 </script>
