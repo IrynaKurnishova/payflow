@@ -6,12 +6,20 @@
         <h1 class="text-2xl font-bold text-gray-800">Transactions</h1>
         <p class="text-gray-400 text-sm mt-1">{{ transactionStore.items.length }} total</p>
       </div>
-      <button
-        class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
-        @click="showForm = !showForm"
-      >
-        + Add Transaction
-      </button>
+      <div class="flex gap-3">
+        <button
+          class="bg-white border border-gray-200 text-gray-600 px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-gray-50 transition-colors"
+          @click="exportToCSV"
+        >
+          ↓ Export CSV
+        </button>
+        <button
+          class="bg-indigo-600 text-white px-5 py-2.5 rounded-xl text-sm font-medium hover:bg-indigo-700 transition-colors"
+          @click="showForm = !showForm"
+        >
+          + Add Transaction
+        </button>
+      </div>
     </div>
 
     <!-- Form -->
@@ -140,7 +148,9 @@ import { ref, computed } from 'vue'
 import { useTransactionStore } from '@/stores/transactions'
 import { useCategoryStore } from '@/stores/categories'
 import type { Transaction } from '@/types'
+import { useExport } from '@/composables/useExport'
 
+const { exportToCSV } = useExport()
 const transactionStore = useTransactionStore()
 const categoryStore = useCategoryStore()
 
