@@ -72,9 +72,12 @@
 
       <!-- Page content -->
       <main class="flex-1 overflow-auto bg-gray-100 dark:bg-gray-800">
-        <RouterView />
+        <RouterView v-slot="{ Component }">
+          <Transition name="page" mode="out-in">
+            <component :is="Component" :key="$route.path" />
+          </Transition>
+        </RouterView>
       </main>
-
     </div>
   </div>
 </template>
@@ -106,5 +109,19 @@ function closeSidebar() {
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;
+}
+.page-enter-active,
+.page-leave-active {
+  transition: all 0.25s ease;
+}
+
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
 }
 </style>
