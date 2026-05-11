@@ -128,6 +128,27 @@
       </button>
     </div>
 
+    <!-- Sort -->
+    <div class="flex items-center gap-2 mb-4">
+      <span class="text-xs text-gray-400">Sort by:</span>
+      <button
+        class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1"
+        :class="sortBy === 'date' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'"
+        @click="toggleSort('date')"
+      >
+        Date
+        <span v-if="sortBy === 'date'">{{ sortOrder === 'desc' ? '↓' : '↑' }}</span>
+      </button>
+      <button
+        class="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors flex items-center gap-1"
+        :class="sortBy === 'amount' ? 'bg-indigo-600 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'"
+        @click="toggleSort('amount')"
+      >
+        Amount
+        <span v-if="sortBy === 'amount'">{{ sortOrder === 'desc' ? '↓' : '↑' }}</span>
+      </button>
+    </div>
+
     <!-- Transactions list -->
     <div class="bg-white rounded-2xl overflow-hidden">
       <EmptyState
@@ -208,6 +229,18 @@ const form = ref({
   categoryId: '',
   date: new Date().toISOString().split('T')[0],
 });
+const sortBy = ref<'date' | 'amount'>('date');
+const sortOrder = ref<'asc' | 'desc'>('desc');
+const editingId = ref<string | null>(null);
+
+const toggleSort = (field: 'date' | 'amount') => {
+  if (sortBy.value === field) {
+    sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+  } else {
+    sortBy.value = field
+    sortOrder.value = 'desc'
+  }
+};
 
 const filteredTransactions = computed(() => {
   let result = transactionStore.items
@@ -224,10 +257,15 @@ const filteredTransactions = computed(() => {
     )
   }
 
-  return result
+  return [...result].sort((a, b) => {
+    const modifier = sortOrder.value === 'asc' ? 1 : -1
+    if (sortBy.value === 'date') {
+      return a.date.localeCompare(b.date) * modifier
+    } else {
+      return (a.amount - b.amount) * modifier
+    }
+  })
 });
-
-const editingId = ref<string | null>(null)
 
 const startEdit = (transaction: Transaction) => {
   editingId.value = transaction.id
